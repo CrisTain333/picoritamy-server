@@ -25,9 +25,16 @@ const run  = ()=>{
 
   try {
     app.get('/home/services',async(req,res)=>{
-      const query = {}
-      const result = servicesCollection.find(query)
-      const service = await result.toArray()
+      const query = {};
+      const result = servicesCollection.find(query).limit(3);
+      const service = await result.toArray();
+      res.send(service)
+
+    })
+    app.get('/services',async(req,res)=>{
+      const query = {};
+      const result = servicesCollection.find(query);
+      const service = await result.toArray();
       res.send(service)
 
     })
