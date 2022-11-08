@@ -38,6 +38,14 @@ const run  = ()=>{
       res.send(service)
 
     })
+    app.get('/services/:id',async(req,res)=>{
+      const id =  req.params.id
+      console.log(id);
+      const query = {_id:ObjectId(id)}
+      const result = await servicesCollection.findOne(query);
+      res.send(result)
+
+    })
     
 
 
