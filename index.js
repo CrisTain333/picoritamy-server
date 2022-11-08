@@ -21,6 +21,7 @@ const client = new MongoClient(uri);
 const run  = ()=>{
 
     const servicesCollection = client.db('picoritamy').collection('services');
+    const reviewsCollection = client.db('picoritamy').collection('reviews');
 
 
   try {
@@ -49,9 +50,19 @@ const run  = ()=>{
 
     app.post('/review',async(req,res)=>{
       const review = req.body
-      console.log(review)
-      res.send(review)
+      const result = await reviewsCollection.insertOne(review);
+      res.send(result);
     })
+
+    app.get('/review/:id',async(req,res)=>{
+      const id =  req.params.id
+      const query ={serviceId:id};
+      const result =  reviewsCollection.find(query);
+      const reviews = await result.toArray()
+      res.send(reviews);
+    })
+
+    
     
 
 
