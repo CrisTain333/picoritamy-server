@@ -3,6 +3,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const app = express();
 const cors = require("cors");
+const { query } = require("express");
 const port = 5000;
 
 app.use(cors());
@@ -57,12 +58,28 @@ const run  = ()=>{
     app.get('/review/:id',async(req,res)=>{
       const id =  req.params.id
       const query ={serviceId:id};
-      const result =  reviewsCollection.find(query);
+      const result =  reviewsCollection.find(query).sort({"time": -1})
       const reviews = await result.toArray()
       res.send(reviews);
     })
 
-    
+    app.get('/review',async(req,res)=>{
+      const email =   req.query.email
+      const filter = {email:email}
+      const result = reviewsCollection.find(filter).sort({"time": -1})
+      const review = await result.toArray()
+      res.send(review);
+
+
+    })
+
+    app.delete('/review/delete/:id',async(req,res)=>{
+      const id =  req.params.id;
+      console.log(id)
+      const query = {_id:ObjectId(id)};
+      const result = await reviewsCollection.deleteOne(query);
+      res.send(result)
+    })
     
 
 
