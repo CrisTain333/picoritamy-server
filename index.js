@@ -46,6 +46,12 @@ const run  = ()=>{
       res.send(result)
 
     })
+
+    app.post('/review',async(req,res)=>{
+      const review = req.body
+      console.log(review)
+      res.send(review)
+    })
     
 
 
