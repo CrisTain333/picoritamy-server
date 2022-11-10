@@ -50,7 +50,7 @@ const run = () => {
     });
     app.get("/home/services", async (req, res) => {
       const query = {};
-      const result = servicesCollection.find(query).limit(3);
+      const result = servicesCollection.find(query).sort({ date: -1 }).limit(3);
       const service = await result.toArray();
       res.send(service);
     });
@@ -143,7 +143,18 @@ const run = () => {
     });
 
     app.post("/add/service", async (req, res) => {
-      const service = req.body;
+      const data = req.body;
+      const service ={
+        date: new Date(),
+        title : data.title,
+        img : data.img,
+        description : data.description,
+        price: data.price,
+        rating: data.rating,
+        Features: [
+          {name : data.Features}
+        ]
+      }
       const result = await servicesCollection.insertOne(service);
       res.send(result);
     });
